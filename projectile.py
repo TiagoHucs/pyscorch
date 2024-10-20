@@ -23,5 +23,6 @@ class Projectile:
         pygame.draw.rect(screen, WHITE, [self.x, self.y, self.width, self.height])
 
     def update(self):
+        self.speed_y = self.speed_y - GRAVITY
         self.x += self.speed_x 
         self.y -= self.speed_y

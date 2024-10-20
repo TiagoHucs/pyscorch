@@ -2,6 +2,7 @@ import pygame
 import sys
 from settings import *
 from tank import *
+from sound import *
 
 # Inicializa o pygame
 pygame.init()
@@ -9,6 +10,8 @@ pygame.init()
 # Configurações da tela
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Scorched Earth Clone')
+
+sound = Sound()
 
 # Instanciando o tanque e o projétil
 tank = Tank(SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT - 100 - 15)
@@ -43,6 +46,7 @@ while True:
     if keys[pygame.K_SPACE]:
         projectile = tank.fire()
         if(projectile):
+            sound.shotgun.play()
             projectiles.append(projectile)
 
     # Desenhar cenário
