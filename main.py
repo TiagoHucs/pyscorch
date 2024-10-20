@@ -11,8 +11,8 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('Scorched Earth Clone')
 
 # Instanciando o tanque e o projétil
-tank = Tank(SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT - 100 - 20)
-projectile = {}
+tank = Tank(SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT - 100 - 15)
+projectiles = []
 
 # Função para desenhar o cenário
 def draw_scenario():
@@ -42,18 +42,29 @@ while True:
         tank.decrease_power()
     if keys[pygame.K_SPACE]:
         projectile = tank.fire()
+        if(projectile):
+            projectiles.append(projectile)
 
-    # Desenhar cenário, tanque e projétil
+    # Desenhar cenário
     draw_scenario()
 
+    tank.update()
     tank.draw(screen)
 
-    if projectile:
+    # remover projeteis que nao aparecem na tela
+    for projectile in projectiles:
+        if (projectile.x > SCREEN_WIDTH) or (projectile.x < 0) or (projectile.y > SCREEN_HEIGHT) or (projectile.y < 0):
+            projectiles.remove(projectile)
+
+    # Desenhar projeteis
+    for projectile in projectiles:
         projectile.update()
         projectile.draw(screen)
 
+
+    # Log de desenvolvimento na tela
     font = pygame.font.SysFont(None, 30) 
-    txt2 = f"power: {tank.power} angle: {tank.angle}"
+    txt2 = f"power: {tank.power} angle: {tank.angle} , projectiles: {len(projectiles)}"
     text = font.render(txt2, True, WHITE)
     screen.blit(text, (10, 10))  # (50, 100) é a posição do texto
 

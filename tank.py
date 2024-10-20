@@ -5,19 +5,19 @@ from projectile import *
 
 class Tank:
     
-    def __init__(self, x, y, width=40, height=20, speed=0.5):
+    def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.width = width
-        self.height = height
-        self.speed = speed
+        self.width = TANK_WIDTH
+        self.height = TANK_HEIGHT
+        self.speed = 0.5
         self.angle = 0
-        self.power = 0
+        self.power = TANK_MIN_POWER
+        self.reload_time = TANK_RELOAD_TIME
 
     def draw(self, screen):
         # Desenhar o corpo do tanque
         pygame.draw.rect(screen, RED, [self.x, self.y, self.width, self.height])
-        
         
         # Tamanho da linha e ângulo (em graus)
         canon_size = 20
@@ -38,6 +38,10 @@ class Tank:
         # Desenhar o canhão
         pygame.draw.line(screen, RED, start_pos, end_pos, canon_diam)
 
+    def update(self):
+        if self.reload_time < TANK_RELOAD_TIME:
+            self.reload_time += 1
+
     def move(self, direction):
         if direction == "LEFT" and self.x > 0:
             self.x -= self.speed
@@ -55,14 +59,16 @@ class Tank:
             self.angle = 0
 
     def increase_power(self):
-        self.power += 1
-        if self.power > 1000:
-            self.power = 1000
+        self.power += TANK_POWER_STEP
+        if self.power > TANK_MAX_POWER:
+            self.power = TANK_MAX_POWER
 
     def decrease_power(self):
-        self.power -= 1
-        if self.power < 0:
-            self.power = 0
+        self.power -= TANK_POWER_STEP
+        if self.power < TANK_MIN_POWER:
+            self.power = TANK_MIN_POWER
 
     def fire(self):
-        return Projectile(self.x + self.width // 2 ,self.y,0.5)
+        if (self.reload_time == TANK_RELOAD_TIME) and (self.power > 0):
+            self.reload_time = 0
+            return Projectile(self.x + self.width // 2 ,self.y, self.angle, self.power)
