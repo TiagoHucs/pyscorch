@@ -1,6 +1,6 @@
 import pygame
-import logging
 from settings import *
+from projectile import *
 
 class Tank:
     
@@ -10,6 +10,8 @@ class Tank:
         self.width = width
         self.height = height
         self.speed = speed
+        self.angle = 0
+        self.power = 0
 
     def draw(self, screen):
         # Desenhar o corpo do tanque
@@ -23,5 +25,25 @@ class Tank:
         elif direction == "RIGHT" and self.x < SCREEN_WIDTH - self.width:
             self.x += self.speed
 
+    def increase_angle(self):
+        self.angle += 1
+        if self.angle > 180:
+            self.angle = 180
+
+    def decrease_angle(self):
+        self.angle -= 1
+        if self.angle < 0:
+            self.angle = 0
+
+    def increase_power(self):
+        self.power += 1
+        if self.power > 1000:
+            self.power = 1000
+
+    def decrease_power(self):
+        self.power -= 1
+        if self.power < 0:
+            self.power = 0
+
     def fire(self):
-        print(f"Atirou da posição: {self.x},{self.y}")
+        return Projectile(self.x + self.width // 2 ,self.y,0.5)
