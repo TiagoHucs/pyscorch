@@ -20,8 +20,8 @@ class Tank:
         pygame.draw.rect(screen, RED, [self.x, self.y, self.width, self.height])
         
         # Tamanho da linha e ângulo (em graus)
-        canon_size = 20
-        canon_diam = 5
+        canon_size = TANK_WIDTH / 2
+        canon_diam = 2
 
         # Converter o ângulo para radianos
         angle_radians = math.radians(self.angle)

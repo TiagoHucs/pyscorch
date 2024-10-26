@@ -13,8 +13,8 @@ pygame.display.set_caption('Scorched Earth Clone')
 
 sound = Sound()
 
-# Instanciando o tanque e o projétil
-tank = Tank(SCREEN_WIDTH // 2 - 20, SCREEN_HEIGHT - 100 - 15)
+# Instanciando o tanque
+tank = Tank(SCREEN_WIDTH // 2 - TANK_WIDTH, SCREEN_HEIGHT - 100 - TANK_HEIGHT)
 projectiles = []
 
 # Função para desenhar o cenário
