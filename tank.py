@@ -2,6 +2,7 @@ import pygame
 import math
 from settings import *
 from projectile import *
+from sound import *
 
 class Tank:
     
@@ -14,6 +15,7 @@ class Tank:
         self.angle = 0
         self.power = TANK_MIN_POWER
         self.reload_time = TANK_RELOAD_TIME
+        self.sound = Sound()
 
     def draw(self, screen):
         # Desenhar o corpo do tanque
@@ -49,12 +51,12 @@ class Tank:
             self.x += self.speed
 
     def increase_angle(self):
-        self.angle += 1
+        self.angle += TANK_ANGLE_STEP
         if self.angle > 180:
             self.angle = 180
 
     def decrease_angle(self):
-        self.angle -= 1
+        self.angle -= TANK_ANGLE_STEP
         if self.angle < 0:
             self.angle = 0
 
@@ -71,4 +73,5 @@ class Tank:
     def fire(self):
         if (self.reload_time == TANK_RELOAD_TIME) and (self.power > 0):
             self.reload_time = 0
+            self.sound.shotgun.play()
             return Projectile(self.x + self.width // 2 ,self.y, self.angle, self.power)

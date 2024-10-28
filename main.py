@@ -46,7 +46,6 @@ while True:
     if keys[pygame.K_SPACE]:
         projectile = tank.fire()
         if(projectile):
-            sound.shotgun.play()
             projectiles.append(projectile)
 
     # Desenhar cenário
